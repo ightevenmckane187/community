@@ -1,0 +1,29 @@
+name: cipher-tube-api
+auth: BearerAuth
+
+types:
+  SessionId: string
+  SessionState:
+    enum:
+      - INIT
+      - BOUND
+      - ACTIVE
+      - ROTATING
+      - REVOKED
+
+services:
+  http:
+    SessionService:
+      auth: true
+      base-path: /v1/sessions
+      endpoints:
+        verify:
+          method: POST
+          path: /verify
+          request:
+            name: VerifySessionRequest
+            body:
+              properties:
+                token: string
+                signature: string
+          response: SessionState
